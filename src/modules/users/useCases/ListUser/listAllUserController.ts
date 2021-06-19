@@ -8,6 +8,7 @@ class ListAllUserController {
   async handle (request: Request, response: Response): Promise<Response> {
     const userRespository = getCustomRepository(UserRepository)
     const user = await userRespository.find()
+
     return response.status(200).json(user)
   }
 }
