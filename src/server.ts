@@ -1,4 +1,5 @@
 import { config } from 'dotenv'
+import cors from 'cors'
 import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors'
 import Routes from './routes'
@@ -12,6 +13,7 @@ createConnection()
 const server = express()
 
 server.use(express.json())
+server.use(cors())
 server.use(express.urlencoded({ extended: true }))
 server.use(Routes)
 

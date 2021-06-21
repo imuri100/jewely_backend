@@ -9,7 +9,7 @@ interface TokenPayload {
     sub: string;
 }
 
-export default function ensureAuthenticade (
+function ensureAuthenticade (
   request: Request,
   response: Response,
   next: NextFunction
@@ -35,3 +35,5 @@ export default function ensureAuthenticade (
     return response.status(401).json({ error: 'Invalid JWT Token' })
   }
 }
+
+export { ensureAuthenticade }

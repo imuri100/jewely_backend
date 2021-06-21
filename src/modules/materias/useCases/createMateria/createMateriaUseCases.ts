@@ -14,16 +14,23 @@ class CreateMateriaUseCase {
 
     const user = await userRepository.FindById(user_id)
 
-    if (!user || user.cargo.trim() !== 'admin') {
+    if (!user || user.cargo !== 'administrador') {
       throw new AppError('user not found or you have not permision to create Materia')
     }
+
     const materiaRepository = getCustomRepository(MateriaRepositoty)
 
     let materia = await materiaRepository.findOne({ where: { reference } })
 
     if (!materia) {
-      materia = await materiaRepository.createMateria({ name, quantity, reference, user_id })
+      materia = await materiaRepository.findOne({ where: { name } })
+
+      if (!materia) {
+        materia = await materiaRepository.createMateria({ name, reference, user_id, quantity })
+      }
     }
+
+    await materiaRepository.save({ ...materia, quantity: quantity + materia.quantity })
 
     return materia
   }
