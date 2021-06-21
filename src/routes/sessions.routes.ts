@@ -1,5 +1,5 @@
 import express from 'express'
-import { AuthenticateUserServices } from '../modules/services/AuthenticateUsers.Services'
+import { AuthenticateUserServices } from '../modules/users/services/AuthenticateUsers.Services'
 
 const sessionsRouter = express.Router()
 

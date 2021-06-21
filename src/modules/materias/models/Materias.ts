@@ -3,11 +3,15 @@ import {
   Column,
   PrimaryGeneratedColumn,
   Entity,
-  UpdateDateColumn
-} from 'typeorm'
+  UpdateDateColumn,
+  OneToMany,
+  JoinColumn
 
-@Entity('users')
-class Users {
+} from 'typeorm'
+import { Users } from '../../users/models/Users'
+
+@Entity('materias')
+class Materias {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -15,16 +19,17 @@ class Users {
     name: string;
 
     @Column()
-    email: string;
+    quantity: number;
 
     @Column()
-    avatar: string;
+    reference: number;
 
     @Column()
-    password: string;
+    user_id: string;
 
-    @Column()
-    cargo:string;
+    @OneToMany(() => Users, () => Users)
+    @JoinColumn({ name: 'user_id' })
+    user: Users;
 
     @CreateDateColumn()
     created_At: Date;
@@ -32,4 +37,4 @@ class Users {
     @UpdateDateColumn()
     updated_At: Date;
 }
-export { Users }
+export { Materias }
