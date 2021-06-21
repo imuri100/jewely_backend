@@ -7,7 +7,6 @@ class CreateMateriaController {
     const { name, quantity, reference, user_id } = request.body
 
     const createMateriaUseCase = getCustomRepository(CreateMateriaUseCase)
-    console.log(name, quantity)
     const materia = await createMateriaUseCase.execute({ name, quantity, reference, user_id })
 
     return response.status(201).json(materia)

@@ -30,7 +30,7 @@ class CreateMateriaUseCase {
       }
     }
 
-    await materiaRepository.save({ ...materia, quantity: quantity + materia.quantity })
+    await materiaRepository.save({ ...materia, quantity: materia.quantity += quantity })
 
     return materia
   }
