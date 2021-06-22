@@ -8,7 +8,8 @@ interface IMateriaProps {
 }
 
 interface IMateriasRepository {
-    createMateria({ name, quantity, reference, user_id } : IMateriaProps) : Promise<Materias>
+    CreateMateria({ name, quantity, reference, user_id } : IMateriaProps) : Promise<Materias>
+    FindById(id:string):Promise<Materias | null>
 }
 
 export { IMateriaProps, IMateriasRepository, Materias }

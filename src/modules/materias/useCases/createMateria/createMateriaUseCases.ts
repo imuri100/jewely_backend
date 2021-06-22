@@ -1,38 +1,40 @@
 import { EntityRepository, getCustomRepository } from 'typeorm'
-import { AppError } from '../../../../erros/AppError'
-import { UserRepository } from '../../../users/repositories/UsersRespository'
 import { IMateriaProps } from '../../repositories/IMateriasRepository'
 import { Materias } from '../../models/Materias'
 import { MateriaRepositoty } from '../../repositories/materiaRepository'
 import { ensureIsValidUuid } from '../../../users/validators/ensureIsValiduuid'
+import { EnsureIfIsAdmin } from '../../middlewares/ensureIfIsAdmin'
+
+interface ResponseProps {
+  materia : Materias,
+  message : string
+}
 
 @EntityRepository(Materias)
 class CreateMateriaUseCase {
-  async execute ({ name, quantity, reference, user_id } : IMateriaProps) : Promise<Materias> {
+  async execute ({ name, quantity, reference, user_id } : IMateriaProps) : Promise<ResponseProps> {
     ensureIsValidUuid(user_id)
-    const userRepository = getCustomRepository(UserRepository)
+    await new EnsureIfIsAdmin().execute(user_id)
 
-    const user = await userRepository.FindById(user_id)
-
-    if (!user || user.cargo !== 'administrador') {
-      throw new AppError('user not found or you have not permision to create Materia')
-    }
-
+    let newQuantity : number = quantity
     const materiaRepository = getCustomRepository(MateriaRepositoty)
-
+    let message
     let materia = await materiaRepository.findOne({ where: { reference } })
-
+    materia ? message = 'reference already exits!' : message = ''
     if (!materia) {
       materia = await materiaRepository.findOne({ where: { name } })
+      materia ? message = 'The Name of Materia already exists' : message = ''
+      newQuantity = 0
 
       if (!materia) {
-        materia = await materiaRepository.createMateria({ name, reference, user_id, quantity })
+        materia = await materiaRepository.CreateMateria({ name, reference, user_id, quantity })
+        message = ''
       }
     }
 
-    await materiaRepository.save({ ...materia, quantity: materia.quantity += quantity })
+    await materiaRepository.save({ ...materia, quantity: materia.quantity += newQuantity })
 
-    return materia
+    return { materia, message }
   }
 }
 

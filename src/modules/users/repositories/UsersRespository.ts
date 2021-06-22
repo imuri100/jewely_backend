@@ -43,11 +43,10 @@ class UserRepository extends Repository<Users> implements IUserRespository {
 
   public async UpdateUser ({
     name,
-    email,
     avatar,
     cargo
-  }: IusersProps, userFinded : IusersProps): Promise<Users> {
-    const user = await this.save({ ...userFinded, name, email, avatar, cargo })
+  }: Omit<IusersProps, 'email'>, userFinded : IusersProps): Promise<Users> {
+    const user = await this.save({ ...userFinded, name, avatar, cargo })
 
     return user
   }

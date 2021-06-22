@@ -29,6 +29,7 @@ function ensureAuthenticade (
 
     request.user = {
       id: sub
+
     }
     next()
   } catch (error) {

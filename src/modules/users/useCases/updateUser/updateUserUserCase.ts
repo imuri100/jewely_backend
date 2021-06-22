@@ -9,7 +9,6 @@ interface RequestProps {
     id : string
     name: string;
     cargo: string;
-    email: string;
     password: string;
     avatar: string;
 }
@@ -18,7 +17,6 @@ class UpdateUserUseCase {
   public async execute ({
     id,
     name,
-    email,
     password,
     avatar,
     cargo
@@ -26,13 +24,14 @@ class UpdateUserUseCase {
     const userRespository = getCustomRepository(UserRepository)
     const findedUser = await userRespository.FindById(id)
 
-    if (!findedUser) throw new AppError(' User not found ', 302)
+    if (!findedUser) {
+      throw new AppError(' User not found ', 302)
+    }
 
     const hashedPassword = await hash(password, 8)
 
     const user = await userRespository.UpdateUser({
       name,
-      email,
       password: hashedPassword,
       avatar,
       cargo

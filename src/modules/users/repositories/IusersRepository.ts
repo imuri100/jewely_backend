@@ -14,7 +14,7 @@ interface IUserRespository {
     FindById(id : string) : Promise<Users | null>
     FindByEmail(email : string) : Promise<Users | null>
     DeleteUSer(id : string) : Promise<void>
-    UpdateUser({ name, cargo, email, avatar } : IusersProps, userFinded : IusersProps) : Promise<Users>
+    UpdateUser({ name, cargo, avatar } : IusersProps, userFinded : Users) : Promise<Users>
 
 }
 export { IusersProps, IUserRespository }
