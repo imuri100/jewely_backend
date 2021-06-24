@@ -1,6 +1,7 @@
 import { Materias } from '../models/Materias'
 
 interface IMateriaProps {
+
     name : string,
     quantity:number,
     reference : number,

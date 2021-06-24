@@ -8,7 +8,7 @@ import { Users } from '../../models/Users'
 interface RequestProps {
     id : string
     name: string;
-    cargo: string;
+    cargo: 'artesao' | 'administrador';
     password: string;
     avatar: string;
 }

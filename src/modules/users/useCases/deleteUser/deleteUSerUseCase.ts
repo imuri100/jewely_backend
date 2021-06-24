@@ -1,11 +1,11 @@
 import { EntityRepository, getCustomRepository } from 'typeorm'
 import { ensureIsValidUuid } from '../../validators/ensureIsValiduuid'
-import { Users } from '../../models/Users'
 import { UserRepository } from '../../repositories/UsersRespository'
 import { AppError } from '../../../../erros/AppError'
+import { Materias } from '../../../materias/models/Materias'
 
-@EntityRepository(Users)
-class DeleteUSerUseCase {
+@EntityRepository(Materias)
+class DeleteUserUseCase {
   public async execute (id: string): Promise<void> {
     ensureIsValidUuid(id)
     const userRespository = getCustomRepository(UserRepository)
@@ -21,4 +21,4 @@ class DeleteUSerUseCase {
   }
 }
 
-export { DeleteUSerUseCase }
+export { DeleteUserUseCase }

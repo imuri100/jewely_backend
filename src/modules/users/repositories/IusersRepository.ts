@@ -2,7 +2,7 @@ import { Users } from '../models/Users'
 
 interface IusersProps {
     name: string;
-    cargo: string;
+    cargo: 'artesao' | 'administrador';
     email: string;
     password: string;
     avatar: string;

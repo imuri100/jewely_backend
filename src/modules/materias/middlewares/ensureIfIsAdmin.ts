@@ -11,7 +11,7 @@ class EnsureIfIsAdmin {
     const user = await userRepository.FindById(id)
 
     if (!user || user.cargo !== 'administrador') {
-      throw new AppError('user not found or you have not permision to create Materia')
+      throw new AppError('user not found or you dont have permision of type administrador ')
     }
   }
 }

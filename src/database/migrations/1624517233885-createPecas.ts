@@ -50,5 +50,6 @@ export class createPecas1624517233885 implements MigrationInterface {
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('pecas')
   }
 }

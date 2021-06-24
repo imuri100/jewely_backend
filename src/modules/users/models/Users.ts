@@ -24,7 +24,7 @@ class Users {
     password: string;
 
     @Column()
-    cargo:string;
+    cargo: 'artesao' | 'administrador';
 
     @CreateDateColumn()
     created_At: Date;
