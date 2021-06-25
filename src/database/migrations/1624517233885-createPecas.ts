@@ -20,18 +20,14 @@ export class createPecas1624517233885 implements MigrationInterface {
         },
 
         {
-          name: 'reference',
-          type: 'varchar',
-          isUnique: true
+          name: 'quantity',
+          type: 'integer'
         },
 
         {
-          name: 'user_id',
-          type: 'uuid'
-        },
-        {
-          name: 'materia_reference',
-          type: 'varchar'
+          name: 'reference',
+          type: 'varchar',
+          isUnique: true
         },
 
         {
