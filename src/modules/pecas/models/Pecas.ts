@@ -29,7 +29,7 @@ class Pecas {
     quantity: number;
 
     @Column()
-    materia_reference: string;
+    materia_reference: Array<string>;
 
     @OneToMany(() => Materias, () => Materias)
     @JoinColumn({ name: 'materia_reference' })

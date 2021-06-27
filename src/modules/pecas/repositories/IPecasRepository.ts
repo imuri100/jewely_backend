@@ -5,7 +5,7 @@ interface IPecasProps {
     name : string,
     reference : number
     quantity:number,
-    materia_reference : string,
+    materia_reference : Array<string>,
     user_id : string
 }
 
