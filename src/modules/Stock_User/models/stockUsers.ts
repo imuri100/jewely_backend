@@ -8,7 +8,7 @@ class StockUsers {
     id : string;
 
     @Column()
-    peca_name : string
+    name : string
 
     @Column()
     quantity : number

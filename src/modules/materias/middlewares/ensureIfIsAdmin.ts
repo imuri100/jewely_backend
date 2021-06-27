@@ -3,15 +3,19 @@ import { EntityRepository, getCustomRepository } from 'typeorm'
 import { AppError } from '../../../erros/AppError'
 import { Users } from '../../users/models/Users'
 import { UserRepository } from '../../users/repositories/UsersRespository'
+import { ensureIsValidUuid } from '../../users/validators/ensureIsValiduuid'
 
 @EntityRepository(Users)
 class EnsureIfIsAdmin {
   async execute (id :string) : Promise<void> {
+    ensureIsValidUuid(id)
     const userRepository = getCustomRepository(UserRepository)
     const user = await userRepository.FindById(id)
 
-    if (!user || user.cargo !== 'administrador') {
-      throw new AppError('user not found or you dont have permision of type administrador ')
+    if (!user) {
+      throw new AppError('user not found')
+    } else if (user.cargo !== 'administrador') {
+      throw new AppError('user in Token request   dont  have permision of type administrador ')
     }
   }
 }

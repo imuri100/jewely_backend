@@ -15,7 +15,7 @@ export class StockUsers1624601246147 implements MigrationInterface {
         },
 
         {
-          name: 'peca_name',
+          name: 'name',
           type: 'varchar'
         },
         {
@@ -26,11 +26,22 @@ export class StockUsers1624601246147 implements MigrationInterface {
         {
           name: 'materia_reference',
           type: 'integer'
+        },
+        {
+          name: 'created_At',
+          type: 'timestamp',
+          default: 'now()'
+        },
+        {
+          name: 'updated_At',
+          type: 'timestamp',
+          default: 'now()'
         }
       ]
     }))
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('stockUsers')
   }
 }

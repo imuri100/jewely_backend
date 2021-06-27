@@ -1,8 +1,8 @@
 import { EntityRepository, getCustomRepository } from 'typeorm'
 import { AppError } from '../../../../erros/AppError'
+import { Materias } from '../../../materias/models/Materias'
+import { MateriaRepositoty } from '../../../materias/repositories/materiaRepository'
 import { ensureIsValidUuid } from '../../../users/validators/ensureIsValiduuid'
-import { Materias } from '../../models/Materias'
-import { MateriaRepositoty } from '../../repositories/materiaRepository'
 
 @EntityRepository(Materias)
 class DeleteMateriaUseCase {

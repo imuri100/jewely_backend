@@ -6,7 +6,8 @@ export default {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DATABASE,
-  entities: ['./src/modules/users/models/*.ts', './src/modules/materias/models/*.ts'],
+  entities: ['./src/modules/users/models/*.ts', './src/modules/materias/models/*.ts',
+    './src/modules/pecas/models/*.ts', './src/modules/Stock_User/models/*.ts'],
   migrations: ['./src/database/migrations/*.ts'],
   cli: {
     migrationsDir: './src/database/migrations'

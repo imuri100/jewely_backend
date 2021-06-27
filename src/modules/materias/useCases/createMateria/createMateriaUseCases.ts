@@ -2,7 +2,6 @@ import { EntityRepository, getCustomRepository } from 'typeorm'
 import { IMateriaProps } from '../../repositories/IMateriasRepository'
 import { Materias } from '../../models/Materias'
 import { MateriaRepositoty } from '../../repositories/materiaRepository'
-import { ensureIsValidUuid } from '../../../users/validators/ensureIsValiduuid'
 import { EnsureIfIsAdmin } from '../../middlewares/ensureIfIsAdmin'
 
 interface ResponseProps {
@@ -13,7 +12,6 @@ interface ResponseProps {
 @EntityRepository(Materias)
 class CreateMateriaUseCase {
   async execute ({ name, quantity, reference, user_id } : IMateriaProps) : Promise<ResponseProps> {
-    ensureIsValidUuid(user_id)
     await new EnsureIfIsAdmin().execute(user_id)
 
     let newQuantity : number = quantity
