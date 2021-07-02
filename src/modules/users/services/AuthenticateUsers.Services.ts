@@ -25,6 +25,7 @@ interface ResponseUser {
         updated_At: Date;
     },
     token: string;
+    old_Token? : string
 }
 
 interface Payload {
@@ -84,7 +85,7 @@ class AuthenticateUserServices {
     if (!user) {
       throw new AppError('invalid refresh Token', 401)
     }
-    const { id, name, cargo, email, avatar, created_At, updated_At } = user
+    const { id, name, cargo, email, avatar, created_At, updated_At, reset_token } = user
     const payload : Payload = {
       cargo,
       email
@@ -94,6 +95,7 @@ class AuthenticateUserServices {
     const refreshToken = await genreted.execute(user, payload, refresh)
     return {
       token: refreshToken,
+      old_Token: reset_token,
       user: {
         id,
         name,

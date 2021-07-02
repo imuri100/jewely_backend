@@ -14,10 +14,10 @@ refreshToken.post('/', async (request, response) => {
 
   const {
     token: refreshToken,
-    user
+    user, old_Token
   } = await authenticateUsers.refreshToken(oldToken)
 
-  return response.status(200).json({ user, refreshToken })
+  return response.status(200).json({ user, refreshToken, old_Token })
 })
 
 export { refreshToken }
