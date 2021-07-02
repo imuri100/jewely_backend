@@ -1,18 +1,35 @@
 import { compare } from 'bcrypt'
 import { getRepository, EntityRepository } from 'typeorm'
-import { sign } from 'jsonwebtoken'
 import { Users } from '../models/Users'
-import AuthConfig from '../../../config/auth'
 import { AppError } from '../../../erros/AppError'
+import { GenerateToken } from '../../jobs/genereteToken'
 
 interface RequestUser {
     email: string;
     password: string;
 }
 
+// interface ResponseUser {
+//     user: Users;
+//     token: string;
+// }
+
 interface ResponseUser {
-    user: Users;
+    user: {
+        id: string;
+        name: string,
+        cargo: 'artesao' | 'administrador';
+        email: string;
+        avatar: string;
+        created_At: Date;
+        updated_At: Date;
+    },
     token: string;
+}
+
+interface Payload {
+    cargo: 'artesao' | 'administrador';
+    email: string;
 }
 
 @EntityRepository(Users)
@@ -35,21 +52,59 @@ class AuthenticateUserServices {
     if (!comparedPassword) {
       throw new AppError('Incorrect Email/password  combination', 401)
     }
+    const { id, name, cargo, email: Email, avatar, created_At, updated_At } = user
+    const payload : Payload = {
+      cargo,
+      email
+    }
+    const genreted = new GenerateToken()
 
-    const token = sign({
-      cargo: user.cargo,
-      email: user.email
-    }, AuthConfig.JWT.secret, {
-      subject: user.id.toString(),
-      expiresIn: AuthConfig.JWT.expiresIn
+    const token = await genreted.execute(user, payload)
+    return {
+      user: {
+        id,
+        name,
+        cargo,
+        email: Email,
+        avatar,
+        created_At,
+        updated_At
+      },
+      token
+    }
+  }
 
+  public async refreshToken (data : string) : Promise<ResponseUser> {
+    const userRepository = getRepository(Users)
+
+    const user = await userRepository.findOne({
+      where: { reset_token: data }
     })
 
+    if (!user) {
+      throw new AppError('invalid refresh Token', 401)
+    }
+    const { id, name, cargo, email, avatar, created_At, updated_At } = user
+    const payload : Payload = {
+      cargo,
+      email
+    }
+    const genreted = new GenerateToken()
+    const refresh = true
+    const refreshToken = await genreted.execute(user, payload, refresh)
     return {
-      user,
-      token
+      token: refreshToken,
+      user: {
+        id,
+        name,
+        cargo,
+        email,
+        avatar,
+        created_At,
+        updated_At
+      }
     }
   }
 }
 
-export { AuthenticateUserServices }
+export { AuthenticateUserServices, Payload, ResponseUser }
