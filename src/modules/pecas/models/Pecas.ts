@@ -8,7 +8,6 @@ import {
   JoinColumn
 
 } from 'typeorm'
-import { Materias } from '../../materias/models/Materias'
 import { Users } from '../../users/models/Users'
 
 @Entity('pecas')
@@ -22,18 +21,14 @@ class Pecas {
     @Column()
     reference: number;
 
-    @Column()
-    user_id: string;
+    @Column({ array: true })
+    stock_User_id : string;
 
     @Column()
-    quantity: number;
+    user_id: string
 
-    @Column()
-    materia_reference: string;
-
-    @OneToMany(() => Materias, () => Materias)
-    @JoinColumn({ name: 'materia_reference' })
-    materias: Materias;
+    @Column({ array: true, type: 'jsonb', default: () => "'[]'" })
+    materia_reference: [{reference : number, quantity: number }];
 
     @OneToMany(() => Users, () => Users)
     @JoinColumn({ name: 'user_id' })

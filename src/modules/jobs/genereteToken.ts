@@ -8,24 +8,29 @@ import { Payload } from '../users/services/AuthenticateUsers.Services'
 class GenerateToken {
   async execute (user :Users, payload : Payload, refresh? : boolean) : Promise<string> {
     const userRepository = getRepository(Users)
-    let token = sign(
-      payload,
-      AuthConfig.JWT.secret, {
-        subject: user.id.toString(),
-        expiresIn: AuthConfig.JWT.expiresIn
+    let token : string = ''
+    if (!refresh) {
+      token = sign(
+        payload,
+        AuthConfig.JWT.secret, {
+          subject: user.id.toString(),
+          expiresIn: AuthConfig.JWT.expiresIn
 
-      })
+        })
+      await userRepository.save({ ...user, reset_token: token, reset_token_expires: token })
+    }
 
     if (refresh) {
       token = sign(
         payload,
-        AuthConfig.JWT.secretRefreshToken, {
+        AuthConfig.JWT.secret, {
           subject: user.id.toString(),
           expiresIn: AuthConfig.JWT.expiresIn_Refresh
 
         })
+
+      await userRepository.save({ ...user, reset_token: token })
     }
-    await userRepository.save({ ...user, reset_token: token })
 
     return token
   }

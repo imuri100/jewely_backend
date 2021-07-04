@@ -1,5 +1,5 @@
-import { CreateMateriaController } from './createMateriaController'
+import { CreatePecasController } from './createPecasController'
 
-const createMateriaController = new CreateMateriaController()
+const createPecasController = new CreatePecasController()
 
-export { createMateriaController }
+export { createPecasController }

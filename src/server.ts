@@ -32,6 +32,6 @@ server.use(
   }
 )
 
-server.listen(3333, () => {
+server.listen(3334, () => {
   console.log('🚀 server is runnig')
 })

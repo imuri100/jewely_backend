@@ -24,7 +24,7 @@ interface ResponseUser {
         created_At: Date;
         updated_At: Date;
     },
-    token: string;
+    token: string ;
     old_Token? : string
 }
 
@@ -61,6 +61,7 @@ class AuthenticateUserServices {
     const genreted = new GenerateToken()
 
     const token = await genreted.execute(user, payload)
+
     return {
       user: {
         id,
@@ -79,13 +80,13 @@ class AuthenticateUserServices {
     const userRepository = getRepository(Users)
 
     const user = await userRepository.findOne({
-      where: { reset_token: data }
+      where: { reset_token_expires: data }
     })
 
     if (!user) {
       throw new AppError('invalid refresh Token', 401)
     }
-    const { id, name, cargo, email, avatar, created_At, updated_At, reset_token } = user
+    const { id, name, cargo, email, avatar, created_At, updated_At, reset_token_expires } = user
     const payload : Payload = {
       cargo,
       email
@@ -95,7 +96,7 @@ class AuthenticateUserServices {
     const refreshToken = await genreted.execute(user, payload, refresh)
     return {
       token: refreshToken,
-      old_Token: reset_token,
+      old_Token: reset_token_expires,
       user: {
         id,
         name,

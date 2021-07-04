@@ -3,14 +3,14 @@ import { Pecas } from '../models/Pecas'
 interface IPecasProps {
 
     name : string,
-    reference : number
-    quantity:number,
-    materia_reference : Array<string>,
-    user_id : string
+    reference: number,
+    materia_reference : Array<{reference : number, quantity : number}>,
+    user_id : string,
+    stock_User_id : Array<string>
 }
 
 interface IPecasRepository {
-    CreatePecas({ name, quantity, reference, user_id, materia_reference } : IPecasProps) : Promise<Pecas>
+    CreatePecas({ name, reference, user_id, materia_reference, stock_User_id } : Pecas) : Promise<Pecas>
     // FindById(id:string):Promise<Materias | null>
 }
 
