@@ -22,7 +22,7 @@ class Pecas {
     reference: number;
 
     @Column({ array: true })
-    stock_User_id : string;
+    stock_User_id : string ;
 
     @Column()
     user_id: string

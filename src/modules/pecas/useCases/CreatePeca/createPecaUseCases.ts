@@ -6,7 +6,6 @@ import { IPecasProps } from '../../repositories/IPecasRepository'
 import { StockUserRespository } from '../../../Stock_User/repositories/stockRespository'
 import { AppError } from '../../../../erros/AppError'
 import { EnsureIfIsArtesao } from '../../middlewares/ensureIfIsArtesao'
-import crypto from 'crypto'
 
 @EntityRepository(Pecas)
 class CreatePecaUseCase {
@@ -36,7 +35,7 @@ class CreatePecaUseCase {
           }
         })
       })
-      const StokUserId: string[] = []
+      const StokUserId : any = []
       const removed = await filteredDupliced
       await removed.reduce(async (prevValue : any, currentValue) : Promise<number> => {
         const findPeca = await pecasRepositoy.findOne({ where: { user_id, name } })
@@ -67,13 +66,12 @@ class CreatePecaUseCase {
         return prevValue
       }, {})
 
-      const hashNumber = crypto.randomInt(30)
       const peca = await pecasRepositoy.CreatePecas({
         name,
         stock_User_id: StokUserId,
         user_id,
-        materia_reference: references,
-        reference: hashNumber
+        materia_reference: references
+
       })
 
       return peca

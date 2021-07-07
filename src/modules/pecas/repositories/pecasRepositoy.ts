@@ -3,19 +3,19 @@ import { IPecasProps, IPecasRepository, Pecas } from './IPecasRepository'
 
 @EntityRepository(Pecas)
 class PecasRepository extends Repository<Pecas> implements IPecasRepository {
-  public async CreatePecas ({ name, reference, user_id, materia_reference, stock_User_id } : IPecasProps) : Promise<Pecas> {
-    const peca = this.create({ name, reference, materia_reference, user_id, stock_User_id })
+  public async CreatePecas ({ name, user_id, materia_reference, stock_User_id } : IPecasProps) : Promise<Pecas> {
+    const peca = this.create({ name, materia_reference, user_id, stock_User_id })
 
     await this.save(peca)
 
     return peca
   }
 
-  //   async FindById (id:string):Promise<Pecas | null> {
-  //     const materia = await this.findOne({ where: { id } })
+  async FindPecaById (id:string):Promise<Pecas | null> {
+    const materia = await this.findOne({ where: { id } })
 
-//     return materia || null
-//   }
+    return materia || null
+  }
 }
 
 export { PecasRepository }
