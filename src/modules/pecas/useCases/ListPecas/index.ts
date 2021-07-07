@@ -1,5 +1,8 @@
+import { ListAllPiceByUser } from './ListAllPice'
 import { ListOnePecasController } from './listOnePecasCotroller'
 
 const listOnePecaControler = new ListOnePecasController()
 
-export { listOnePecaControler }
+const listAllPecasByUser = new ListAllPiceByUser()
+
+export { listOnePecaControler, listAllPecasByUser }
