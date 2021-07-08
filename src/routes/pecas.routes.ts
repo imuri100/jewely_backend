@@ -1,7 +1,7 @@
 import express from 'express'
 import { createPecasController } from '../modules/pecas/useCases/CreatePeca'
 import { listAllPecasByUser, listOnePecaControler } from '../modules/pecas/useCases/ListPecas'
-import { deleteRemainsOfPartsUseCase, listRemainsOfPartsController } from '../modules/pecas/useCases/RemainsOfParts'
+import { deleteRemainsOfPartsUseCase, listRemainsOfPartsController } from '../modules/pecas/useCases/CreteRemainsOfParts'
 
 const PecasRouter = express.Router()
 PecasRouter.get('/', async (request, response) => {

@@ -8,13 +8,15 @@ export class AlterFieldMateriaReferenceOfPecas1625431283202 implements Migration
 
     await queryRunner.addColumn('pecas', new TableColumn({
       name: 'materia_reference',
-      type: 'jsonb'
+      type: 'jsonb',
+      isNullable: true
     }))
 
     await queryRunner.addColumn('pecas', new TableColumn({
       name: 'stock_User_id',
       type: 'uuid',
-      isArray: true
+      isArray: true,
+      isNullable: true
 
     }))
   }
@@ -27,19 +29,23 @@ export class AlterFieldMateriaReferenceOfPecas1625431283202 implements Migration
     await queryRunner.addColumn('pecas', new TableColumn({
       name: 'materia_reference',
       type: 'uuid',
-      isArray: true
+      isArray: true,
+      isNullable: true
     }))
     await queryRunner.addColumn('pecas', new TableColumn({
       name: 'quantity',
-      type: 'integer'
+      type: 'integer',
+      isNullable: true
     }))
     await queryRunner.addColumn('pecas', new TableColumn({
       name: 'user_id',
-      type: 'uuid'
+      type: 'uuid',
+      isNullable: true
     }))
     await queryRunner.addColumn('pecas', new TableColumn({
       name: 'stock_User_id',
-      type: 'uuid'
+      type: 'uuid',
+      isNullable: true
 
     }))
   }

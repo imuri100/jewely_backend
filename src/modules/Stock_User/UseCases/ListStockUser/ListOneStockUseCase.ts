@@ -7,31 +7,25 @@ import { StockUserRespository } from '../../repositories/stockRespository'
 
 type ITypeUserProps = {
     user_idLogged : string
-    user_id : string;
+    term : boolean
 
 }
 
 @EntityRepository(StockUsers)
 class ListOneStockUseCase {
-  public async execute ({ user_id, user_idLogged }:ITypeUserProps) : Promise<StockUsers[]> {
-    ensureIsValidUuid(user_id)
+  public async execute ({ user_idLogged, term }:ITypeUserProps) : Promise<StockUsers[]> {
     ensureIsValidUuid(user_idLogged)
 
     const userRepository = getCustomRepository(UserRepository)
     const user = await userRepository.FindById(user_idLogged)
-    // if (!user || user.id !== user_idLoged && user.cargo !== 'administrador') {
-    //   throw new AppError('user not found to look this Stock ')
-    // }
+
     const stockRespository = getCustomRepository(StockUserRespository)
 
-    const findStockUser = await stockRespository.find({})
     if (!user) {
       throw new AppError('user Logged not found', 401)
-    } else if (findStockUser.length <= 0) {
-      throw new AppError(`The Stock with this user_id ${user_id} was not found`, 401)
-    } else if (findStockUser[0].user_id !== user_idLogged && user.cargo !== 'administrador') {
-      throw new AppError('You not have permission to see this Stock user', 401)
     }
+
+    const findStockUser = await stockRespository.find({ where: { status: term, user_id: user.id } })
 
     return findStockUser
   }

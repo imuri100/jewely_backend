@@ -22,6 +22,12 @@ class StockUsers {
     @Column()
     user_id : string
 
+    @Column()
+    message : string
+
+    @Column()
+    status : boolean
+
     @ManyToMany(() => Materias, () => Materias)
     @JoinColumn({ name: 'materia_id' })
     materias: Materias;

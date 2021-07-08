@@ -9,7 +9,9 @@ class StockUserRespository extends Repository<StockUsers> implements IStockUsers
       quantity,
       user_id: user_id,
       materia_id: data.id,
-      materia_reference: data.reference
+      materia_reference: data.reference,
+      status: false,
+      message: `Você recebeu uma nova Materia de  ${data.name}`
 
     })
 
