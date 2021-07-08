@@ -1,38 +1,61 @@
+
+import { compare } from 'bcrypt'
+import { getRepository, EntityRepository } from 'typeorm'
 import { sign } from 'jsonwebtoken'
-import { EntityRepository, getRepository } from 'typeorm'
-import AuthConfig from '../../config/auth'
 import { Users } from '../users/models/Users'
-import { Payload } from '../users/services/AuthenticateUsers.Services'
+import { AppError } from '../../erros/AppError'
+import AuthConfig from '../../config/auth'
+import { GenerateRefreshToken } from '../../provider/generateRefreshToken'
+import { RefreshToken } from '../../database/model/refreshToken'
+interface RequestUser {
+    email: string;
+    password: string;
+}
+
+interface ResponseUser {
+    user: Users;
+    token: string;
+    refreshToken : RefreshToken
+}
 
 @EntityRepository(Users)
 class GenerateToken {
-  async execute (user :Users, payload : Payload, refresh? : boolean) : Promise<string> {
+  public async execute ({
+    email,
+    password
+  }: RequestUser): Promise<ResponseUser> {
     const userRepository = getRepository(Users)
-    let token : string = ''
-    if (!refresh) {
-      token = sign(
-        payload,
-        AuthConfig.JWT.secret, {
-          subject: user.id.toString(),
-          expiresIn: AuthConfig.JWT.expiresIn
 
-        })
-      await userRepository.save({ ...user, reset_token: token, reset_token_expires: token })
+    const user = await userRepository.findOne({
+      where: { email }
+    })
+
+    if (!user) {
+      throw new AppError('Incorrect Email/password  combination', 401)
     }
 
-    if (refresh) {
-      token = sign(
-        payload,
-        AuthConfig.JWT.secret, {
-          subject: user.id.toString(),
-          expiresIn: AuthConfig.JWT.expiresIn_Refresh
-
-        })
-
-      await userRepository.save({ ...user, reset_token: token })
+    const comparedPassword = await compare(password, user.password)
+    if (!comparedPassword) {
+      throw new AppError('Incorrect Email/password  combination', 401)
     }
 
-    return token
+    const token = sign({
+      cargo: user.cargo,
+      email: user.email
+    }, AuthConfig.JWT.secret, {
+      subject: user.id.toString(),
+      expiresIn: AuthConfig.JWT.expiresIn
+
+    })
+
+    const generateRefreshTokenProvider = new GenerateRefreshToken()
+    const refreshToken = await generateRefreshTokenProvider.execute(user.id)
+
+    return {
+      user,
+      token,
+      refreshToken
+    }
   }
 }
 
