@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 @EntityRepository(RefreshToken)
 class GenerateRefreshToken {
   async execute (userId: string) : Promise<RefreshToken> {
-    const expiresIn = dayjs().add(15, 'minutes').unix()
+    const expiresIn = dayjs().add(15, 'minute').unix()
 
     const refreshTokenRepository = getRepository(RefreshToken)
     const refreshToken = refreshTokenRepository.create({

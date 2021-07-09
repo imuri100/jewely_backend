@@ -4,10 +4,21 @@ import { MateriaRepositoty } from '../../repositories/materiaRepository'
 
 class ListAllMateriaController {
   async handle (request : Request, response : Response) : Promise<Response> {
-    const materiaRepository = getCustomRepository(MateriaRepositoty)
-    const materia = await materiaRepository.find({ })
+    let { perPage, page } : any = request.query
 
-    return response.status(200).json(materia)
+    if (!page) {
+      perPage = 1
+    }
+    if (!perPage) {
+      perPage = 3
+    }
+
+    const limit = parseInt(perPage)
+    const skip = (page - 1) * perPage
+    const materiaRepository = getCustomRepository(MateriaRepositoty)
+    const materia = await materiaRepository.find({ skip, take: limit })
+
+    return response.status(200).json({ page, perPage, data: materia })
   }
 }
 

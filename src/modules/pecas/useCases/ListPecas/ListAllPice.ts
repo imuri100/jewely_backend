@@ -7,19 +7,32 @@ import { PecasRepository } from '../../repositories/pecasRepositoy'
 class ListAllPiceByUser {
   async handle (request :Request, response : Response) :Promise<Response> {
     const { id: user_id } = request.user
+    let { perPage, page } : any = request.query
+
+    if (!page) {
+      perPage = 1
+    }
+    if (!perPage) {
+      perPage = 3
+    }
+
+    const limit = parseInt(perPage)
+    const skip = (page - 1) * perPage
 
     const userRepository = getCustomRepository(UserRepository)
     const user = await userRepository.findOne({ where: { id: user_id } })
 
     const pecasRepository = getCustomRepository(PecasRepository)
-    let peca = await pecasRepository.find({})
+    //
+    // .take(10)
+    let pecas = await pecasRepository.find({ skip, take: limit })
     if (!user) {
       throw new AppError('user not found')
     } else if (user.cargo !== 'administrador') {
-      peca = await pecasRepository.find({ where: { user_id } })
+      pecas = await pecasRepository.find({ where: { user_id } })
     }
 
-    return response.status(200).json(peca)
+    return response.status(200).json({ page, perPage, data: pecas })
   }
 }
 
