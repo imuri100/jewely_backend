@@ -9,7 +9,7 @@ class ListRemainsOfPartsController {
     const remainsOfPartsUseCase = getCustomRepository(RemainsOfPartsUseCase)
     const restos = await remainsOfPartsUseCase.execute(user_id)
 
-    return response.status(201).json(restos)
+    return response.status(200).json(restos)
   }
 }
 

@@ -1,9 +1,10 @@
-import { getRepository } from 'typeorm'
+import { EntityRepository, getRepository } from 'typeorm'
 import { RefreshToken } from '../database/model/refreshToken'
 import dayjs from 'dayjs'
+@EntityRepository(RefreshToken)
 class GenerateRefreshToken {
   async execute (userId: string) : Promise<RefreshToken> {
-    const expiresIn = dayjs().add(15, 'second').unix()
+    const expiresIn = dayjs().add(15, 'minutes').unix()
 
     const refreshTokenRepository = getRepository(RefreshToken)
     const refreshToken = refreshTokenRepository.create({

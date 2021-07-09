@@ -17,7 +17,7 @@ class UpdateStockUserController {
     const stockUpdated = await updateStockUserCase.execute(
       { quantity, materia_reference: Number(reference.trim()), user_id }, user)
 
-    return response.status(201).json(stockUpdated)
+    return response.status(200).json(stockUpdated)
   }
 }
 export { UpdateStockUserController }

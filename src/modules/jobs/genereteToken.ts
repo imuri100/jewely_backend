@@ -1,12 +1,11 @@
 
 import { compare } from 'bcrypt'
 import { getRepository, EntityRepository } from 'typeorm'
-import { sign } from 'jsonwebtoken'
 import { Users } from '../users/models/Users'
 import { AppError } from '../../erros/AppError'
-import AuthConfig from '../../config/auth'
 import { GenerateRefreshToken } from '../../provider/generateRefreshToken'
 import { RefreshToken } from '../../database/model/refreshToken'
+import { Token } from './Token'
 interface RequestUser {
     email: string;
     password: string;
@@ -39,14 +38,7 @@ class GenerateToken {
       throw new AppError('Incorrect Email/password  combination', 401)
     }
 
-    const token = sign({
-      cargo: user.cargo,
-      email: user.email
-    }, AuthConfig.JWT.secret, {
-      subject: user.id.toString(),
-      expiresIn: AuthConfig.JWT.expiresIn
-
-    })
+    const token = Token(user)
 
     const generateRefreshTokenProvider = new GenerateRefreshToken()
     const refreshToken = await generateRefreshTokenProvider.execute(user.id)

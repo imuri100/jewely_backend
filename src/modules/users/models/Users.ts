@@ -21,12 +21,6 @@ class Users {
     avatar: string;
 
     @Column()
-    reset_token : string
-
-    @Column()
-    reset_token_expires : string
-
-    @Column()
     password: string;
 
     @Column()

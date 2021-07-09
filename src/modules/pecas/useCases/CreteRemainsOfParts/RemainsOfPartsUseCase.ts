@@ -20,7 +20,7 @@ class RemainsOfPartsUseCase {
         peca = await pecasRepository.find({ where: { user_id } })
       }
 
-      return response.status(201).json(peca)
+      return response.status(200).json(peca)
     } catch (error) {
       return response.status(400).json({ error: error.message })
     }

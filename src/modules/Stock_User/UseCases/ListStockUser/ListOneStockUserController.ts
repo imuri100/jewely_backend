@@ -11,7 +11,7 @@ class ListOneStockController {
 
     const createStock = await listOneStockUseCase.execute({ user_idLogged, term })
 
-    return response.status(201).json(createStock)
+    return response.status(200).json(createStock)
   }
 }
 export { ListOneStockController }

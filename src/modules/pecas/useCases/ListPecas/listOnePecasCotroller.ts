@@ -10,7 +10,7 @@ class ListOnePecasController {
 
     const peca = await listOnePecaUserCase.execute(id, user_id)
 
-    return response.status(201).json(peca)
+    return response.status(200).json(peca)
   }
 }
 
