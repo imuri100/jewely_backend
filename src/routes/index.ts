@@ -6,6 +6,7 @@ import { stoskUserRoutes } from './StockUser.routes'
 import { ensureAuthenticade } from '../modules/users/middleware/ensureAuthenticad'
 import { refreshToken } from './refreshToken'
 import { PecasRouter } from './pecas.routes'
+import { VendasRoutes } from './vendas.routes'
 
 const routes = express.Router()
 
@@ -15,5 +16,6 @@ routes.use('/users', UserRoutes)
 routes.use('/materias', ensureAuthenticade, materiaRoutes)
 routes.use('/stockuser', ensureAuthenticade, stoskUserRoutes)
 routes.use('/pecas/users', ensureAuthenticade, PecasRouter)
+routes.use('/vendas', ensureAuthenticade, VendasRoutes)
 
 export default routes
