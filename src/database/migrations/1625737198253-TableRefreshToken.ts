@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } from 'typeorm'
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm'
 
 export class TableRefreshToken1625737198253 implements MigrationInterface {
   public async up (queryRunner: QueryRunner): Promise<void> {
@@ -27,9 +27,6 @@ export class TableRefreshToken1625737198253 implements MigrationInterface {
 
     }))
 
-    await queryRunner.dropColumn('users', 'reset_token')
-    await queryRunner.dropColumn('users', 'reset_token_expires')
-
     await queryRunner.createForeignKey('restospecas', new TableForeignKey({
       name: 'FkeyRefreshTokenToUser',
       columnNames: ['userId'],
@@ -43,17 +40,5 @@ export class TableRefreshToken1625737198253 implements MigrationInterface {
   public async down (queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('freshToken', 'FkeyRefreshTokenToUser')
     await queryRunner.dropTable('freshToken')
-
-    await queryRunner.addColumn('users', new TableColumn({
-      name: 'reset_token_expires',
-      type: 'varchar',
-      isNullable: true
-    }))
-
-    await queryRunner.addColumn('users', new TableColumn({
-      name: 'reset_token',
-      type: 'varchar',
-      isNullable: true
-    }))
   }
 }

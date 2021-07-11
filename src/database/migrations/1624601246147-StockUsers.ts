@@ -25,7 +25,8 @@ export class StockUsers1624601246147 implements MigrationInterface {
 
         {
           name: 'materia_reference',
-          type: 'integer'
+          type: 'integer',
+          isNullable: true
         },
         {
           name: 'created_At',

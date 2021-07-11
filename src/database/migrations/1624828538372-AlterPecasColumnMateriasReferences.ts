@@ -5,7 +5,9 @@ export class AlterPecasColumnMateriasReferences1624828538372 implements Migratio
     await queryRunner.addColumn('pecas', new TableColumn({
       name: 'materia_reference',
       type: 'uuid',
-      isArray: true
+      isArray: true,
+      isNullable: true
+
     }))
   }
 

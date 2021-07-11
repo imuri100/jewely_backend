@@ -2,6 +2,7 @@ import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } 
 
 export class Vendas1625824128294 implements MigrationInterface {
   public async up (queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropColumn('stockUsers', 'vendido')
     await queryRunner.createTable(new Table({
       name: 'vendas',
       columns: [
@@ -61,9 +62,9 @@ export class Vendas1625824128294 implements MigrationInterface {
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('vendas')
+    await queryRunner.dropForeignKey('vendas', 'FkeyVendasToPecasInStock')
+    await queryRunner.dropForeignKey('vendas', 'FkeyVendasToUsers')
     await queryRunner.dropColumn('stockUsers', 'vendido')
-    // await queryRunner.dropForeignKey('vendas', 'FkeyVendasToUsers')
-    await queryRunner.dropForeignKey('vendas', 'FkeyVendasToPecas')
+    await queryRunner.dropTable('vendas')
   }
 }

@@ -4,3 +4,4 @@ node_modules
 dist
 pdf/*
 !pdf/.gitkeep
+ormconfig.ts
