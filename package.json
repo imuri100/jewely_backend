@@ -8,7 +8,8 @@
         "start": "node dist/server.js",
         "build": "rimraf dist && babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
         "dev:server": "ts-node-dev  --inspect --ignore-watch node_modules --respawn --transpile-only src/server.ts",
-        "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+        "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+        "typeorm:Prod": "node ./node_modules/typeorm/cli.js"
     },
     "devDependencies": {
         "@babel/cli": "^7.14.5",
@@ -55,6 +56,7 @@
         "pg": "^8.6.0",
         "prettier": "^2.3.1",
         "puppeteer": "^10.1.0",
+        "reflect-metadata": "^0.1.13",
         "typeorm": "^0.2.34",
         "uuid": "^8.3.2"
     }

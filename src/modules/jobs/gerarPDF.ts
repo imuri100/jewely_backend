@@ -5,9 +5,10 @@ import crypto from 'crypto'
 import { Pecas } from '../pecas/models/Pecas'
 import { Users } from '../users/models/Users'
 import { AppError } from '../../erros/AppError'
+const newFileName : string = 't'
 function GerarPDF (peca : Pecas, user? : Users) {
   const filePath = path.join(__dirname, '..', '..', 'views', 'print.ejs')
-  ejs.renderFile(filePath, { pecas: peca, author: user?.name }, (err, html) => {
+  ejs.renderFile(filePath, { pecas: peca, author: user?.name }, async (err, html) => {
     if (err) {
       throw new AppError(err.message)
     }
@@ -21,15 +22,20 @@ function GerarPDF (peca : Pecas, user? : Users) {
         height: '20mm'
       }
     }
-    const fileName = crypto.randomBytes(10).toString('hex')
 
-    pdf.create(html, options).toFile(`./pdf/${peca.name}-${fileName}.pdf`, (err, data) => {
+    const fileName = crypto.randomBytes(10).toString('hex')
+    const nome = peca.name.split(' ').filter(n => n !== '').join('')
+
+    pdf.create(html, options).toFile(`./src/pdf/${nome}-${fileName}.pdf`, (err, data) :string => {
       if (err) {
         throw new AppError(err.message)
       }
-      return "'Arquivo gerado com sucesso'"
+
+      return newFileName
     })
   })
+
+  console.log(newFileName)
 }
 
 export { GerarPDF }

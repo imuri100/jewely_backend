@@ -8,9 +8,8 @@ class CreatePecasController {
 
     const { name, materia_reference } = request.body
     const createPecaUseCase = getCustomRepository(CreatePecaUseCase)
-    const createPeca = await createPecaUseCase.execute({ name, materia_reference, user_id: id })
-
-    return response.status(201).json(createPeca)
+    const peca = await createPecaUseCase.execute({ name, materia_reference, user_id: id })
+    return response.status(201).json(peca)
   }
 }
 
