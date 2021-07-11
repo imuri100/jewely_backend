@@ -25,7 +25,7 @@ class ListAllPiceByUser {
     const pecasRepository = getCustomRepository(PecasRepository)
     //
     // .take(10)
-    let pecas = await pecasRepository.find({ skip, take: limit })
+    let pecas = await pecasRepository.find({ where: { armazen: true }, skip, take: limit })
     if (!user) {
       throw new AppError('user not found')
     } else if (user.cargo !== 'administrador') {

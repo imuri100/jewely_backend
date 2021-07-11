@@ -21,6 +21,9 @@ class Pecas {
     @Column()
     reference: number;
 
+    @Column()
+    armazen : boolean
+
     @Column({ array: true })
     stock_User_id : string ;
 

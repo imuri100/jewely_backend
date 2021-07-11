@@ -2,6 +2,7 @@ import express from 'express'
 import { createPecasController } from '../modules/pecas/useCases/CreatePeca'
 import { listAllPecasByUser, listOnePecaControler } from '../modules/pecas/useCases/ListPecas'
 import { deleteRemainsOfPartsUseCase, listRemainsOfPartsController } from '../modules/pecas/useCases/CreteRemainsOfParts'
+import { sendStore } from '../modules/pecas/useCases/armazen'
 
 const PecasRouter = express.Router()
 PecasRouter.get('/', async (request, response) => {
@@ -10,8 +11,13 @@ PecasRouter.get('/', async (request, response) => {
 PecasRouter.get('/list/deleted', async (request, response) => {
   return await listRemainsOfPartsController.handle(request, response)
 })
+
 PecasRouter.get('/:id', async (request, response) => {
   return await listOnePecaControler.handle(request, response)
+})
+
+PecasRouter.post('/armazen', async (request, response) => {
+  return await sendStore.handle(request, response)
 })
 
 PecasRouter.post('/', async (request, response) => {

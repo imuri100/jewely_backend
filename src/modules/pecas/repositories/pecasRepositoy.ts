@@ -4,7 +4,7 @@ import { IPecasProps, IPecasRepository, Pecas } from './IPecasRepository'
 @EntityRepository(Pecas)
 class PecasRepository extends Repository<Pecas> implements IPecasRepository {
   public async CreatePecas ({ name, user_id, materia_reference, stock_User_id } : IPecasProps) : Promise<Pecas> {
-    const peca = this.create({ name, materia_reference, user_id, stock_User_id })
+    const peca = this.create({ name, materia_reference, user_id, stock_User_id, armazen: false })
 
     await this.save(peca)
 

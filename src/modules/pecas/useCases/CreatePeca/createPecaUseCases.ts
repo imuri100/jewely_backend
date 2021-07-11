@@ -1,11 +1,13 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { EntityRepository, getCustomRepository } from 'typeorm'
+import { EntityRepository, getCustomRepository, getRepository } from 'typeorm'
 import { PecasRepository } from '../../repositories/pecasRepositoy'
 import { Pecas } from '../../models/Pecas'
 import { IPecasProps } from '../../repositories/IPecasRepository'
 import { StockUserRespository } from '../../../Stock_User/repositories/stockRespository'
 import { AppError } from '../../../../erros/AppError'
 import { EnsureIfIsArtesao } from '../../middlewares/ensureIfIsArtesao'
+import { GerarPDF } from '../../../jobs/gerarPDF'
+import { Users } from '../../../users/models/Users'
 
 @EntityRepository(Pecas)
 class CreatePecaUseCase {
@@ -73,7 +75,8 @@ class CreatePecaUseCase {
         materia_reference: references
 
       })
-
+      const user = await getRepository(Users).findOne({ where: { id: user_id } })
+      GerarPDF(peca, user)
       return peca
     } catch (error) {
       throw new AppError(error.message.toString())
