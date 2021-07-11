@@ -36,6 +36,6 @@ server.use(
   }
 )
 
-server.listen(3334, () => {
+server.listen(process.env.PORT || 3334, () => {
   console.log('🚀 server is runnig')
 })

@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "commonjs",
     "scripts": {
-        "start": "node dist/server.js",
+        "start": "node ./dist/server.js",
         "build": "rimraf dist && babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
         "dev:server": "ts-node-dev  --inspect --ignore-watch node_modules --respawn --transpile-only src/server.ts",
         "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
