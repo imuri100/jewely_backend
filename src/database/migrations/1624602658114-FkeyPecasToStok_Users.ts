@@ -32,8 +32,8 @@ export class FkeyPecasToStokUsers1624602658114 implements MigrationInterface {
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('pecas', 'FkeyPecasToUsers')
-    await queryRunner.dropForeignKey('pecas', 'FkeyPecasToStockUsers')
+    // await queryRunner.dropForeignKey('pecas', 'FkeyPecasToUsers')
+    // await queryRunner.dropForeignKey('pecas', 'FkeyPecasToStockUsers')
     await queryRunner.dropColumn('pecas', 'user_id')
     await queryRunner.dropColumn('pecas', 'stock_User_id')
   }

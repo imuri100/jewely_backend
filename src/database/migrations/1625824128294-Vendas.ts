@@ -2,7 +2,6 @@ import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } 
 
 export class Vendas1625824128294 implements MigrationInterface {
   public async up (queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropColumn('stockUsers', 'vendido')
     await queryRunner.createTable(new Table({
       name: 'vendas',
       columns: [

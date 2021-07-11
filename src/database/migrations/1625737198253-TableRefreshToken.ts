@@ -27,8 +27,17 @@ export class TableRefreshToken1625737198253 implements MigrationInterface {
 
     }))
 
-    await queryRunner.createForeignKey('restospecas', new TableForeignKey({
+    await queryRunner.createForeignKey('freshToken', new TableForeignKey({
       name: 'FkeyRefreshTokenToUser',
+      columnNames: ['userId'],
+      referencedColumnNames: ['id'],
+      referencedTableName: 'users',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
+    }))
+
+    await queryRunner.createForeignKey('restospecas', new TableForeignKey({
+      name: 'FkeyRestosPecasToUser',
       columnNames: ['userId'],
       referencedColumnNames: ['id'],
       referencedTableName: 'users',
@@ -38,6 +47,7 @@ export class TableRefreshToken1625737198253 implements MigrationInterface {
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('restospecas', 'FkeyRestosPecasToUser')
     await queryRunner.dropForeignKey('freshToken', 'FkeyRefreshTokenToUser')
     await queryRunner.dropTable('freshToken')
   }
