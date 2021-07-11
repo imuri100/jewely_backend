@@ -5,7 +5,6 @@ import crypto from 'crypto'
 import { Pecas } from '../pecas/models/Pecas'
 import { Users } from '../users/models/Users'
 import { AppError } from '../../erros/AppError'
-console.log(path.join(__dirname, '..', '..', 'views', 'print.ejs'))
 function GerarPDF (peca : Pecas, user? : Users) {
   const filePath = path.join(__dirname, '..', '..', 'views', 'print.ejs')
   ejs.renderFile(filePath, { pecas: peca, author: user?.name }, (err, html) => {

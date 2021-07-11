@@ -3,7 +3,6 @@ import cors from 'cors'
 import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors'
 import Routes from './routes'
-import nunjucks from 'nunjucks'
 
 import { AppError } from './erros/AppError'
 import { createConnection } from './database'
@@ -17,14 +16,6 @@ server.use(express.json())
 server.use(cors())
 server.use(express.urlencoded({ extended: true }))
 server.use(Routes)
-
-server.set('view engine', 'njk')
-
-nunjucks.configure('src/views', {
-  express: server,
-  autoescape: false,
-  noCache: true
-})
 
 server.use(express.static('src/views'))
 
