@@ -1,6 +1,7 @@
 export default {
 
   type: 'postgres',
+  URL: process.env.DATABASE,
   host: process.env.DB_HOST_NAME,
   port: Number(process.env.DB_PORT),
   username: process.env.DB_USERNAME,
