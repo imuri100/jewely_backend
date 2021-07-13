@@ -8,8 +8,10 @@ class CreatePecasController {
 
     const { name, materia_reference } = request.body
     const createPecaUseCase = getCustomRepository(CreatePecaUseCase)
-    const peca = await createPecaUseCase.execute({ name, materia_reference, user_id: id })
-    return response.status(201).json(peca)
+    const { FileName: FilePathPDF, peca } = await createPecaUseCase.execute({ name, materia_reference, user_id: id })
+    const fileName = FilePathPDF.replace('./src', '')
+    const newFileName = `${request.protocol}://${request.headers.host}`.concat(fileName)
+    return response.status(201).json({ FilePathPDF: newFileName, peca })
   }
 }
 

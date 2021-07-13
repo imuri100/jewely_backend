@@ -2,6 +2,6 @@ node_modules
 .env
 .vscode
 dist
-pdf/*
-!pdf/.gitkeep
+src/pdf/*
+!src/pdf/.gitkeep
 ormconfig.ts

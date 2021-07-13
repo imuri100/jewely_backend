@@ -29,7 +29,6 @@ class CreateStockUsersUseCase {
     let findMateriaInStock = await stockRespository.findOne({ where: { materia_reference, user_id } })
 
     if (!findMateriaInStock) {
-      console.log(findMateriaByReference)
       if (quantity > findMateriaByReference.quantity) {
         throw new AppError('The amount of this material is insufficeint')
       }

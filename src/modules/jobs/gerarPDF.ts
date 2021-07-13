@@ -5,9 +5,13 @@ import crypto from 'crypto'
 import { Pecas } from '../pecas/models/Pecas'
 import { Users } from '../users/models/Users'
 import { AppError } from '../../erros/AppError'
-const newFileName : string = 't'
-function GerarPDF (peca : Pecas, user? : Users) {
+
+function GerarPDF (peca : Pecas, user? : Users) : string {
+  const nome = peca.name.split(' ').filter(n => n !== '').join('')
+  const fileName = crypto.randomBytes(10).toString('hex')
+  const nameFile = `./src/pdf/${nome}-${fileName}.pdf`
   const filePath = path.join(__dirname, '..', '..', 'views', 'print.ejs')
+
   ejs.renderFile(filePath, { pecas: peca, author: user?.name }, async (err, html) => {
     if (err) {
       throw new AppError(err.message)
@@ -23,19 +27,16 @@ function GerarPDF (peca : Pecas, user? : Users) {
       }
     }
 
-    const fileName = crypto.randomBytes(10).toString('hex')
-    const nome = peca.name.split(' ').filter(n => n !== '').join('')
-
-    pdf.create(html, options).toFile(`./src/pdf/${nome}-${fileName}.pdf`, (err, data) :string => {
+    pdf.create(html, options).toFile(nameFile, (err, data) :string => {
       if (err) {
         throw new AppError(err.message)
       }
 
-      return newFileName
+      return nameFile
     })
   })
 
-  console.log(newFileName)
+  return nameFile
 }
 
 export { GerarPDF }

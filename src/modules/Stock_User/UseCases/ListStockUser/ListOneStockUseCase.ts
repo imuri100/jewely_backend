@@ -15,7 +15,7 @@ type ITypeUserProps = {
 class ListOneStockUseCase {
   public async execute ({ user_idLogged, term }:ITypeUserProps) : Promise<StockUsers[]> {
     ensureIsValidUuid(user_idLogged)
-
+    let findStockUser
     const userRepository = getCustomRepository(UserRepository)
     const user = await userRepository.FindById(user_idLogged)
 
@@ -23,9 +23,13 @@ class ListOneStockUseCase {
 
     if (!user) {
       throw new AppError('user Logged not found', 401)
+    } else if (user.cargo === 'administrador') {
+      findStockUser = await stockRespository.find({ where: { status: term } })
+
+      return findStockUser
     }
 
-    const findStockUser = await stockRespository.find({ where: { status: term, user_id: user.id } })
+    findStockUser = await stockRespository.find({ where: { status: term, user_id: user.id } })
 
     return findStockUser
   }

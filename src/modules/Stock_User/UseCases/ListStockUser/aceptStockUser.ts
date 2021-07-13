@@ -24,11 +24,14 @@ class AceptStockUser {
       if (!user) {
         throw new AppError('user Logged not found', 401)
       }
+      console.log(materia_id)
 
-      const findStockUser = await stockRespository.findOne({ where: { status: false, materia_id, user_id: id } })
+      const findStockUser = await stockRespository.findOne({ where: { id: materia_id, user_id: id } })
 
       if (!findStockUser) {
-        throw new AppError('materia in stock user not found or status Already true', 404)
+        throw new AppError('materia in stock user not found', 404)
+      } else if (findStockUser.status !== false) {
+        throw new AppError('this Materia in stock user is already accepted ')
       }
       const StockUser = await stockRespository.save({ ...findStockUser, message: '', status: true })
 

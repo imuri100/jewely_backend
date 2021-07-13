@@ -25,7 +25,7 @@ class DeleteOneStockUseCase {
     const stockRespository = getCustomRepository(StockUserRespository)
 
     const findStockUser = await stockRespository.FindOneStockByUser_id(user_id, materia_reference)
-    console.log(findStockUser)
+
     if (!user) {
       throw new AppError('user Logged not found', 401)
     } else if (!findStockUser) {
