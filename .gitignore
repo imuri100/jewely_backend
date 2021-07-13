@@ -4,4 +4,5 @@ node_modules
 dist
 src/pdf/*
 !src/pdf/.gitkeep
-ormconfig.ts
+ormconfigs.ts
+ormconfigs.js
