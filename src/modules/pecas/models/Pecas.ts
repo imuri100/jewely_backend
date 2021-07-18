@@ -30,6 +30,9 @@ class Pecas {
     @Column()
     user_id: string
 
+    @Column()
+    PDF_url : string
+
     @Column({ array: true, type: 'jsonb', default: () => "'[]'" })
     materia_reference: [{reference : number, quantity: number }];
 

@@ -3,8 +3,8 @@ import { IPecasProps, IPecasRepository, Pecas } from './IPecasRepository'
 
 @EntityRepository(Pecas)
 class PecasRepository extends Repository<Pecas> implements IPecasRepository {
-  public async CreatePecas ({ name, user_id, materia_reference, stock_User_id } : IPecasProps) : Promise<Pecas> {
-    const peca = this.create({ name, materia_reference, user_id, stock_User_id, armazen: false })
+  public async CreatePecas ({ name, user_id, materia_reference, stock_User_id, PDF_url } : IPecasProps) : Promise<Pecas> {
+    const peca = this.create({ name, materia_reference, user_id, stock_User_id, armazen: false, PDF_url })
 
     await this.save(peca)
 

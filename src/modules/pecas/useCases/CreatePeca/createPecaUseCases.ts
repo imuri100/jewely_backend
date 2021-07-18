@@ -9,13 +9,9 @@ import { EnsureIfIsArtesao } from '../../middlewares/ensureIfIsArtesao'
 import { GerarPDF } from '../../../jobs/gerarPDF'
 import { Users } from '../../../users/models/Users'
 
-interface ResponseProps {
-    peca : Pecas,
-    FileName : string
-}
 @EntityRepository(Pecas)
 class CreatePecaUseCase {
-  async execute ({ name, materia_reference, user_id } : Omit<IPecasProps, 'reference'| 'stock_User_id'>) : Promise<ResponseProps> {
+  async execute ({ name, materia_reference, user_id, PDF_url } : Omit<IPecasProps, 'reference'| 'stock_User_id'>) : Promise<Pecas> {
     try {
       const newNamePice = name.trim()
       await new EnsureIfIsArtesao().execute(user_id)
@@ -79,12 +75,15 @@ class CreatePecaUseCase {
         name,
         stock_User_id: StokUserId,
         user_id,
-        materia_reference: references
+        materia_reference: references,
+        PDF_url
 
       })
       const user = await getRepository(Users).findOne({ where: { id: user_id } })
       const FileName = GerarPDF(peca, user)
-      return { FileName, peca }
+      const fileName = FileName.replace('./src', '')
+      const newPeca = await pecasRepositoy.save({ ...peca, PDF_url: PDF_url.concat(fileName) })
+      return newPeca
     } catch (error) {
       throw new AppError(error.message.toString())
     }
